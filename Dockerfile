@@ -19,7 +19,7 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # expose port
-EXPOSE 5000
+EXPOSE 5001
 
 # create uploads directory
 RUN mkdir -p uploads
@@ -31,7 +31,7 @@ RUN mkdir -p uploads
 
 # health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:5000/api/health')"
+    CMD python -c "import requests; requests.get('http://localhost:5001/api/health')"
 
 # run the application
-CMD ["python", "app.py"]
+CMD ["python", "run.py"]
