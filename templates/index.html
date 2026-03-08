@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fish Vision - Object Detection</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🐟 Fish Vision</h1>
+        <p class="subtitle">AI-Powered Fish Detection in Images</p>
+      </header>
+
+      <main>
+        <div class="converter-section">
+          <!-- Upload Section -->
+          <div class="upload-area">
+            <div class="upload-input-wrapper">
+              <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+                class="file-input"
+              />
+              <label for="imageInput" class="upload-label">
+                <svg
+                  class="upload-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="M12 2v20M2 12h20M6 6l12 12M18 6l-12 12"></path>
+                </svg>
+                <span>Click to upload or drag & drop</span>
+                <small>Supported: JPG, PNG, BMP, GIF</small>
+              </label>
+            </div>
+
+            <div class="confidence-control">
+              <label for="confidenceSlider">Confidence Threshold:</label>
+              <div class="slider-container">
+                <input
+                  type="range"
+                  id="confidenceSlider"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="slider"
+                />
+                <span id="confidenceValue">50%</span>
+              </div>
+              <small
+                >Higher threshold = fewer false positives but may miss
+                fish</small
+              >
+            </div>
+
+            <button id="detectBtn" class="detect-btn" disabled>
+              Detect Fish
+            </button>
+          </div>
+
+          <!-- Results Section -->
+          <div
+            class="results-section"
+            id="resultsSection"
+            style="display: none"
+          >
+            <div class="image-gallery">
+              <div class="image-container">
+                <h3>Original Image</h3>
+                <img id="originalImage" src="" alt="Original" />
+              </div>
+              <div class="image-container">
+                <h3>Detection Result</h3>
+                <img id="resultImage" src="" alt="Result" />
+              </div>
+            </div>
+
+            <div class="detections-info">
+              <h3>Detection Results:</h3>
+              <div id="detectionsList" class="detections-list"></div>
+            </div>
+
+            <button id="resetBtn" class="reset-btn">
+              Detect Another Image
+            </button>
+          </div>
+
+          <!-- Loading Spinner -->
+          <div
+            class="loading-spinner"
+            id="loadingSpinner"
+            style="display: none"
+          >
+            <div class="spinner"></div>
+            <p>Processing image... This may take a few seconds</p>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            class="error-message"
+            id="errorMessage"
+            style="display: none"
+          ></div>
+        </div>
+
+        <!-- Info Section -->
+        <section class="info-section">
+          <h2>How It Works</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>1. Upload Image</h3>
+              <p>Select an image containing fish to analyze</p>
+            </div>
+            <div class="info-card">
+              <h3>2. AI Detection</h3>
+              <p>
+                Advanced deep learning model detects fish and their locations
+              </p>
+            </div>
+            <div class="info-card">
+              <h3>3. View Results</h3>
+              <p>
+                See annotated images with confidence scores for each detection
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 Fish Vision. Powered by PyTorch & Flask</p>
+      </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

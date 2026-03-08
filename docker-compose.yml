@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  fish-detection:
+    build: .
+    container_name: fish_vision_app
+    ports:
+      - "8000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./data:/app/data
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    # Uncomment below to use GPU (requires nvidia-docker)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
