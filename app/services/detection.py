@@ -76,8 +76,9 @@ def detect_fish(image_path, confidence_threshold=0.5):
         # Draw label
         label = f'Fish {i+1}: {confidence:.1%}'
         label_size = draw.textbbox((0, 0), label)
+        label_width = label_size[2] - label_size[0] + 4
         label_height = label_size[3] - label_size[1] + 4
-        draw.rectangle([x1, y1 - label_height, label_size[2] + 4, y1],
+        draw.rectangle([x1, y1 - label_height, x1 + label_width, y1],
                        fill=outline_color)
         draw.text((x1 + 2, y1 - label_height + 2), label, fill=(255, 255, 255))
 
