@@ -31,6 +31,9 @@ def detect_fish(image_path, confidence_threshold=0.5):
     Detect fish in an image
     Returns: (image_with_boxes, detections_list)
     """
+
+    print("Detecting fish in image:", image_path)
+
     # Read image
     image_cv = cv2.imread(image_path)
     image_rgb = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)

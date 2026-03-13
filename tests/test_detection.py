@@ -53,14 +53,7 @@ def _import_detection_module(monkeypatch):
 
 def test_detect_fish_filters_and_formats(monkeypatch):
 
-    def _make_test_image(path):
-        pixels = np.zeros((64, 64, 3), dtype=np.uint8)
-        pixels[8:40, 8:40] = [255, 255, 255]
-        Image.fromarray(pixels).save(path)
-
     detection = _import_detection_module(monkeypatch)
-
-    PYDEVD_DISABLE_FILE_VALIDATION = 1
 
     image_path = "/Users/vietpham/Library/CloudStorage/Dropbox/30-downloads/test-fish.jpg"
 
