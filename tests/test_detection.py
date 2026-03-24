@@ -46,6 +46,7 @@ def _import_detection_module(monkeypatch):
     )
 
     sys.modules.pop("app.services.detection", None)
+
     import app.services.detection as detection  # pylint: disable=import-outside-toplevel
 
     return detection
