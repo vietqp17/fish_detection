@@ -10,7 +10,6 @@ mpmath==1.3.0
 networkx==3.6.1
 numpy==2.4.3
 opencv-python==4.13.0.92
-packaging @ file:///opt/miniconda3/conda-bld/packaging_1761049079068/work
 pillow==12.1.1
 setuptools==80.10.2
 sympy==1.14.0
