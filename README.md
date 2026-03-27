@@ -4,7 +4,7 @@ A web application for detecting fish in images using deep learning. Upload image
 
 ## Features
 
-- 🐟 **AI-Powered Detection**: Uses Faster R-CNN ResNet50 FPN for accurate fish detection
+- 🐟 **AI-Powered Detection**: Uses Faster R-CNN MobileNetV3-Large 320 FPN for lighter fish detection
 - 📤 **Easy Upload**: Drag & drop or click to upload images
 - 🎯 **Confidence Control**: Adjust detection sensitivity with a confidence threshold slider
 - 🎨 **Visual Results**: See annotated images with detection boxes and confidence scores
@@ -109,7 +109,7 @@ fish_vision/
 
 ## Model Details
 
-- **Architecture**: Faster R-CNN with ResNet50 backbone + FPN
+- **Architecture**: Faster R-CNN with MobileNetV3-Large 320 backbone + FPN
 - **Classes**: 2 (Background + Fish)
 - **Input**: RGB images (any size)
 - **Output**: Bounding boxes with confidence scores

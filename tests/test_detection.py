@@ -1,8 +1,6 @@
 import sys
-from types import SimpleNamespace
 
 import numpy as np
-from PIL import Image
 import pytest
 import torch
 import torchvision
@@ -10,11 +8,6 @@ import torchvision
 
 class _LoaderModel:
     """Minimal model stub used while importing the detection module."""
-
-    def __init__(self):
-        cls_score = SimpleNamespace(in_features=1024)
-        box_predictor = SimpleNamespace(cls_score=cls_score)
-        self.roi_heads = SimpleNamespace(box_predictor=box_predictor)
 
     def to(self, _device):
         return self
@@ -36,13 +29,13 @@ class _InferenceModel:
 
 def _import_detection_module(monkeypatch):
 
-    def fake_fasterrcnn_resnet50_fpn(*_args, **_kwargs):
+    def fake_ssdlite320_mobilenet_v3_large(*_args, **_kwargs):
         return _LoaderModel()
 
     monkeypatch.setattr(
         torchvision.models.detection,
-        "fasterrcnn_resnet50_fpn",
-        fake_fasterrcnn_resnet50_fpn,
+        "ssdlite320_mobilenet_v3_large",
+        fake_ssdlite320_mobilenet_v3_large,
     )
 
     sys.modules.pop("app.services.detection", None)
@@ -56,11 +49,10 @@ def test_detect_fish_filters_and_formats(monkeypatch):
 
     detection = _import_detection_module(monkeypatch)
 
-    image_path = "/Users/vietpham/Library/CloudStorage/Dropbox/30-downloads/test-fish.jpg"
+    monkeypatch.setattr(detection.cv2, "imread", lambda _path: np.zeros((64, 64, 3), dtype=np.uint8))
 
     monkeypatch.setattr(detection, "model", _InferenceModel())
-    result_image, detections = detection.detect_fish(image_path,
-                                                     confidence_threshold=0.5)
+    result_image, detections = detection.detect_fish("dummy.png", confidence_threshold=0.5)
 
     assert result_image.size == (64, 64)
     assert len(detections) == 1
@@ -73,5 +65,5 @@ def test_detect_fish_raises_for_missing_file(monkeypatch, tmp_path):
     detection = _import_detection_module(monkeypatch)
     missing_path = tmp_path / "missing.png"
 
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
         detection.detect_fish(str(missing_path))

@@ -1,6 +1,11 @@
 import os
+import sys
 from flask import Flask
 from app.config import config
+
+
+if sys.platform == 'darwin':
+    os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
 
 
 def create_app(config_name='default'):

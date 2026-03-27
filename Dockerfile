@@ -1,4 +1,4 @@
-FROM python:3.11.15
+FROM python:3.14.0
 
 # set working directory in container
 WORKDIR /usr/src/app
@@ -7,17 +7,17 @@ WORKDIR /usr/src/app
 COPY . .
 
 # install system dependencies
-# RUN apt-get update && apt-get install -y \
-#     libopencv-dev \
-#     python3-opencv \
-#     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
 # copy requirements first for better caching
-# COPY requirements.txt .
+COPY requirements.txt .
 
 # install Python dependencies
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install -r requirements.txt
 
 # expose port
 EXPOSE 5001

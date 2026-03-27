@@ -1,6 +1,15 @@
+import os
+import sys
+from typing import cast
+
+if sys.platform == 'darwin':
+    os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
+
 import torch
 import torchvision
-from torchvision.models.detection.faster_rcnn import FastRCNNPredictor, FasterRCNN_ResNet50_FPN_Weights
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor, fasterrcnn_mobilenet_v3_large_320_fpn
+
+from torchvision.models.detection import ssdlite320_mobilenet_v3_large
 
 import cv2
 from PIL import Image, ImageDraw
@@ -10,13 +19,30 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 # Load model
-def load_model():
+def load_model_old():
     """Load the fish detection model"""
-    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(
-        weights=FasterRCNN_ResNet50_FPN_Weights.DEFAULT)
-    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    model = fasterrcnn_mobilenet_v3_large_320_fpn(weights='DEFAULT')
+
+    # model = ssdlite320_mobilenet_v3_large(weights="DEFAULT")
+    box_predictor = cast(FastRCNNPredictor, model.roi_heads.box_predictor)
+    in_features = box_predictor.cls_score.in_features
     num_classes = 2  # background + fish
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+
+    model.to(device)
+    model.eval()
+    return model
+
+
+def load_model():
+    """Load the fish detection model"""
+
+    num_classes = 2  # background + fish
+
+    model = ssdlite320_mobilenet_v3_large(
+        weights=None,
+        #   weights="DEFAULT",
+        num_classes=num_classes)
 
     model.to(device)
     model.eval()
@@ -36,6 +62,9 @@ def detect_fish(image_path, confidence_threshold=0.5):
 
     # Read image
     image_cv = cv2.imread(image_path)
+    if image_cv is None:
+        raise FileNotFoundError(f'Could not read image: {image_path}')
+
     image_rgb = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
     image_pil = Image.fromarray(image_rgb)
 

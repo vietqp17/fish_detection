@@ -1,6 +1,11 @@
 import os
+import sys
 from datetime import datetime
 from flask import Blueprint, request, jsonify, send_file, current_app
+
+if sys.platform == 'darwin':
+    os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
+
 import torch
 from app.services.detection import detect_fish, device
 
