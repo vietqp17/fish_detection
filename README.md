@@ -2,6 +2,8 @@
 
 A web application for detecting fish in images using deep learning. Upload images and get real-time detection results with confidence scores and bounding boxes.
 
+For live demo, please visit https://fishdetection-production.up.railway.app/
+
 ## Features
 
 - 🐟 **AI-Powered Detection**: Uses Faster R-CNN MobileNetV3-Large 320 FPN for lighter fish detection
